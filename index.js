@@ -3,13 +3,20 @@ const express = require('express');
 
 // ************
 // APP
+// ************
 const app = express();
-const port = 5000;
 
 
+// ************
+// ROUTES
+// ************
 app.get('/', (req, res) => {
   res.send({ hi: 'there'})
 });
 
 
-app.listen(port);
+// ************
+// START SERVER
+// ************
+const PORT = process.env.PORT || 5000;
+app.listen(PORT);
