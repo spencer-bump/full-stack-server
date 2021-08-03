@@ -26,11 +26,14 @@ passport.deserializeUser((id, done) => {
 });
 
 passport.use(
-  new GoogleStrategy({
+  new GoogleStrategy(
+  {
     clientID: keys.googleClientID,
     clientSecret: keys.googleClientSecret,
-    callbackURL: '/auth/google/callback'
-  }, (accessToken, refreshToken, profile, done) => {
+    callbackURL: '/auth/google/callback',
+    proxy: true
+  },
+  (accessToken, refreshToken, profile, done) => {
     User.findOne({ googleId: profile.id })
       .then( googleUser  => {
         if (googleUser) {
@@ -48,12 +51,15 @@ passport.use(
   )
 );
 
-passport.use(new FacebookStrategy({
+passport.use(
+  new FacebookStrategy(
+  {
     clientID: keys.facebookClientID,
     clientSecret: keys.facebookClientSecret,
     callbackURL: "/auth/facebook/callback",
     profileFields: ['id', 'displayName']
-  }, (accessToken, refreshToken, profile, done) => {
+  },
+  (accessToken, refreshToken, profile, done) => {
       console.log("fb profile: ", profile);
       User.findOne({ facebookId: profile.id })
       .then( facebookUser  => {
